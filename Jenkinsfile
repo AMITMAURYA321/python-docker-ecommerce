@@ -15,5 +15,11 @@ pipeline {
                 sh 'docker ps'
             }
         }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t amit8192/python-docker-ecommerce:latest ./backend'
+            }
+        }
     }
 }
