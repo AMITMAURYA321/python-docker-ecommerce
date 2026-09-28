@@ -1,0 +1,78 @@
+services:
+
+  backend:
+    build: ./backend
+    container_name: ecommerce-api-prod
+    restart: unless-stopped
+
+    security_opt:
+      - no-new-privileges:true
+    
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+        
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    networks:
+      - ecommerce-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: ecommerce-mysql-prod
+    restart: unless-stopped
+
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+    volumes:
+      - ecommerce-mysql-data:/var/lib/mysql
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "ecommerce", "-p${MYSQL_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - ecommerce-network
+
+  nginx:
+    build: ./nginx
+    container_name: ecommerce-nginx-prod
+    restart: unless-stopped
+
+    ports:
+      - "8082:80"
+
+    depends_on:
+      backend:
+        condition: service_healthy
+
+    networks:
+      - ecommerce-network
+
+
+networks:
+  ecommerce-network:
+    driver: bridge
+
+volumes:
+  ecommerce-mysql-data:
+    external: true
