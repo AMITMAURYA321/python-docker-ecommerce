@@ -53,7 +53,10 @@ pipeline {
 
                     docker pull amit8192/python-docker-ecommerce:$IMAGE_TAG
 
-                    docker compose -f docker-compose.prod.yml up -d backend
+                    docker compose \
+                      --env-file .env \
+                      -f docker-compose.prod.yml \
+                      up -d backend
 
                     sleep 10
 
