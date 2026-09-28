@@ -46,6 +46,22 @@ pipeline {
             }
         }
 
+        stage('Deploy to Production') {
+            steps {
+                sh '''
+                    export IMAGE_TAG=latest
+
+                    docker pull amit8192/python-docker-ecommerce:$IMAGE_TAG
+
+                    docker compose -f docker-compose.prod.yml up -d backend
+
+                    sleep 10
+
+                    curl -f http://localhost:8082/health
+                '''
+            }
+        }
+
         stage('Docker Logout') {
             steps {
                 sh 'docker logout'
