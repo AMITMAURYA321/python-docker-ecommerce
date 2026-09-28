@@ -1,7 +1,7 @@
 services:
 
   backend:
-    build: ./backend
+    image: amit8192/python-docker-ecommerce:1.0
     container_name: ecommerce-api-prod
     restart: unless-stopped
 
