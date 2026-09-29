@@ -57,7 +57,6 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 sh '''
-                    export IMAGE_TAG=latest
 
                     docker pull ${DOCKER_IMAGE}:${IMAGE_TAG}
 
