@@ -59,7 +59,7 @@ pipeline {
                 sh '''
                     export IMAGE_TAG=latest
 
-                    docker pull amit8192/python-docker-ecommerce:$IMAGE_TAG
+                    docker pull ${DOCKER_IMAGE}:${IMAGE_TAG}
 
                     docker compose \
                       --env-file .env \
