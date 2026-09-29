@@ -4,7 +4,7 @@ pipeline {
 
     environment{
 
-        DOCKER_IMAGE = 'amit8192/python-docker-ecommrce'
+        DOCKER_IMAGE = 'amit8192/python-docker-ecommerce'
         IMAGE_TAG ="${BUILD_NUMBER}"
    
     } 
