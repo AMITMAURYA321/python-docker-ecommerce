@@ -1,6 +1,14 @@
 pipeline {
     agent any
 
+
+    environment{
+
+        DOCKER_IMAGE = 'amit8192/python-docker-ecommrce'
+        IMAGE_TAG ="${BUILD_NUMBER}"
+   
+    } 
+
     stages {
 
         stage('Checkout') {
@@ -36,13 +44,13 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t amit8192/python-docker-ecommerce:latest ./backend'
+                sh 'docker build -t ${DOCKER_IMAGE}:${IMAGE_TAG} ./backend'
             }
         }
 
         stage('Push to Docker Hub') {
             steps {
-                sh 'docker push amit8192/python-docker-ecommerce:latest'
+                sh 'docker push ${DOCKER_IMAGE}:${IMAGE_TAG}'
             }
         }
 
