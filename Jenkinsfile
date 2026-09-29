@@ -59,6 +59,8 @@ pipeline {
                 sh '''
 
                     docker pull ${DOCKER_IMAGE}:${IMAGE_TAG}
+                    
+                    export IMAGE_TAG=${IMAGE_TAG}
 
                     docker compose \
                       --env-file .env \
