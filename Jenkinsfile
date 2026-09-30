@@ -1,13 +1,11 @@
+```groovy
 pipeline {
     agent any
 
-
-    environment{
-
+    environment {
         DOCKER_IMAGE = 'amit8192/python-docker-ecommerce'
-        IMAGE_TAG ="${BUILD_NUMBER}"
-   
-    } 
+        IMAGE_TAG = "${BUILD_NUMBER}"
+    }
 
     stages {
 
@@ -47,7 +45,7 @@ pipeline {
                 sh 'docker build -t ${DOCKER_IMAGE}:${IMAGE_TAG} ./backend'
             }
         }
-}
+
         stage('Push to Docker Hub') {
             steps {
                 sh 'docker push ${DOCKER_IMAGE}:${IMAGE_TAG}'
@@ -57,9 +55,8 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 sh '''
-
                     docker pull ${DOCKER_IMAGE}:${IMAGE_TAG}
-                    
+
                     export IMAGE_TAG=${IMAGE_TAG}
 
                     docker compose \
@@ -81,3 +78,4 @@ pipeline {
         }
     }
 }
+```
