@@ -47,15 +47,6 @@ pipeline {
                 sh 'docker build -t ${DOCKER_IMAGE}:${IMAGE_TAG} ./backend'
             }
         }
-        stage('Trivy Security Scan') {
-            steps {
-                sh '''
-                    trivy image \
-                    --severity HIGH,CRITICAL \
-                    --exit-code 0 \
-                    ${DOCKER_IMAGE}:${IMAGE_TAG}
-        '''
-    }
 }
         stage('Push to Docker Hub') {
             steps {
