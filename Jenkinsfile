@@ -77,6 +77,3 @@ pipeline {
         }
     }
 }
-```
-
-**`DOCKER_CI_DC` same rakha hai.** सिर्फ extra `}` हटाया है.
